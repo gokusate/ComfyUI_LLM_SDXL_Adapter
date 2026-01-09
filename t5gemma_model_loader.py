@@ -17,7 +17,8 @@ class T5GEMMALoader:
         self.model = None
         self.tokenizer = None
         self.current_model_path = None
-        self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+        # self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+        self.device = 'cuda:0'
     
     @classmethod
     def INPUT_TYPES(cls):
