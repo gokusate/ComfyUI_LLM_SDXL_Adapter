@@ -16,7 +16,8 @@ class LLMAdapterLoaderCustom:
     def __init__(self):
         self.adapter = None
         self.current_adapter_path = None
-        self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+        # self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+        self.device = 'cuda:0'
     
     @classmethod
     def INPUT_TYPES(cls):
