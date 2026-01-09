@@ -3,4 +3,4 @@ einops
 safetensors
 torch
 gguf>=0.17.1
-accelerate>=1.12.0
+accelerate
