@@ -47,7 +47,7 @@ class T5GEMMALoader:
         """Load Language Model and tokenizer"""
         if device == "auto":
             device = self.device
-                
+
         try:
             model_path = get_llm_checkpoint_path(model_name)
 
@@ -60,14 +60,18 @@ class T5GEMMALoader:
                     gc.collect()
                     torch.cuda.empty_cache()
                 
-                logger.info(f"Loading Language Model from {model_path}")
+                # logger.info(f"Loading Language Model from {model_path}")
+                logger.info(f"Loading Language Model from {model_path} onto {device}")
                 
                 self.model = T5GemmaEncoderModel.from_pretrained(
                     model_path,
                     torch_dtype=torch.bfloat16,
-                    device_map=device,
+                    # device_map=device,
                     is_encoder_decoder=False,
+                    low_cpu_mem_usage=False, # Prevents accelerate requirement
                 )
+                # FIX: Manually move model to the selected device
+                self.model.to(device)
                 
                 self.tokenizer = AutoTokenizer.from_pretrained(
                     model_path,
@@ -75,7 +79,8 @@ class T5GEMMALoader:
                 )
                 
                 self.current_model_path = model_path
-                logger.info("T5Gemma Model loaded successfully")
+                # logger.info("T5Gemma Model loaded successfully")
+                logger.info(f"T5Gemma Model loaded successfully on {device}")
             
             info = f"Model: {model_path}\nDevice: {device}\nLoaded: {self.model is not None}"
             
